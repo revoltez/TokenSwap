@@ -52,6 +52,12 @@ const [xyzTokenPrice, setXyzTokenPrice] = useState(0);
         setabcTokenPrice(abcPrice)
         const xyzPrice= await contracts[2].methods.tokenPrice().call();
         setXyzTokenPrice(xyzPrice);
+
+        const result = await contracts[0].methods.getRatio().call();
+        setRatio(result);
+        const result2 = await contracts[0].methods.getFees().call();
+        setFees(result2);
+
     },[]);
 
 
