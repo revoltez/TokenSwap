@@ -92,20 +92,24 @@ let accounts= Accounts;
 
 const calculateSwap=()=>
 {
+    let Final;
     if(tokenSelected==="ABC")
    {
         const exchangeA= parseInt(switchAmount) * parseInt(ratio);
-        console.log("exchnageA::",exchangeA);
-        const Final= exchangeA - ((exchangeA * fees)/100);
-        setFinalAmount(Math.round(Final));
+        Final= exchangeA - ((exchangeA * fees)/100);
     }
     else
     {
         const exchangeA = switchAmount / ratio;
-        const Final = exchangeA-((exchangeA *fees)/100);
-        setFinalAmount(Math.round(Final))
+        Final = exchangeA-((exchangeA *fees)/100);
     }
-       
+    if(isNaN(Final))
+    {
+        setFinalAmount(0);
+    }else
+    {
+        setFinalAmount(Math.round(Final));
+    }
 }
 
     return (
@@ -134,7 +138,7 @@ const calculateSwap=()=>
                 </select>
 
             <div class="input-group mt-5">
-            <input class="form-control" placeholder="Amount" type="number" onChange={(evt)=>{console.log(evt.target.value);setSwitchAmount(evt.target.value)}} ></input>
+            <input class="form-control" placeholder="Amount" type="number" onChange={(evt)=>{setSwitchAmount(evt.target.value)}} ></input>
             <button class="btn-warning form-control" onClick={()=>{swapTokens()}}>Switch</button>
             </div>    
             <label class="alert alert-info mt-3">1 ABC = {ratio} XYZ, Fees: {fees}%  Expected to get:{finalAmount}</label>
