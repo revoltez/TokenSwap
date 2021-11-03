@@ -82,12 +82,26 @@ let accounts= Accounts;
 
     const  buyTokensABC = async ()=>
     {
-        const receipt = await contracts[1].methods.buyTokens(numOfTokenA).send({from:accounts[0],value:numOfTokenA*abcTokenPrice});
+        try
+        {
+            const receipt = await contracts[1].methods.buyTokens(numOfTokenA).send({from:accounts[0],value:numOfTokenA*abcTokenPrice});
+        }
+        catch(err)
+        {
+            alert("Transaction Failed due to the following Error"+err);
+        }
     }
 
     const buyTokensXYZ = async ()=>
     {
-        const receipt = await contracts[2].methods.buyTokens(numOfTokenX).send({from:accounts[0],value:numOfTokenX*xyzTokenPrice});
+        try
+        {
+            const receipt = await contracts[2].methods.buyTokens(numOfTokenX).send({from:accounts[0],value:numOfTokenX*xyzTokenPrice});
+        }
+        catch(err)
+        {
+            alert("Transaction Failed due to the following Error"+err);
+        }
     }
 
 const calculateSwap=()=>
@@ -108,7 +122,7 @@ const calculateSwap=()=>
         setFinalAmount(0);
     }else
     {
-        setFinalAmount(Math.round(Final));
+        setFinalAmount(Math.ceil(Final));
     }
 }
 
