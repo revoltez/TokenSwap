@@ -4,7 +4,6 @@ import TokenSwap from "../contracts/TokenSwap.json";
 export default function TokenSwapScreen({Web3,Contracts,Accounts}) {
 
 const [tokenSelected, setTokenSelected] = useState("ABC");
-const [contracts, setContracts] = useState(Contracts);
 const [switchAmount, setSwitchAmount] = useState(0);
 const [numOfTokenA, setNumOfTokenA] = useState(0);
 const [numOfTokenX, setNumOfTokenX] = useState(0);
@@ -18,6 +17,7 @@ const [abcTokenPrice, setabcTokenPrice] = useState(0);
 const [xyzTokenPrice, setXyzTokenPrice] = useState(0);
 
 const web3 =Web3;
+let contracts = Contracts;
 let accounts= Accounts;
     //Run only once
     useEffect(async ()=>

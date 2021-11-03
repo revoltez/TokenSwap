@@ -11,7 +11,7 @@ contract TokenABC is ERC20 {
         ERC20("TokenABC", "ABC")
     {
         tokenPrice = _tokenPrice;
-        _mint(address(this), initialSupply);
+        _mint(address(this), initialSupply * 10**decimals());
     }
 
     function mul(uint256 x, uint256 y) internal pure returns (uint256 z) {

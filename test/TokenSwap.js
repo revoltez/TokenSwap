@@ -66,7 +66,7 @@ contract("TokenSwap", (accounts) => {
     assert.equal(balanceTKA, 5);
     assert.equal(balanceTKX, 11);
   });
-  /*
+
   it("testing the swapTKX function", async () => {
     const TokenSwapInstance = await TokenSwap.deployed();
     const TokenAInstance = await TokenA.deployed();
@@ -75,18 +75,18 @@ contract("TokenSwap", (accounts) => {
     const ratio = await TokenSwapInstance.setRatio(3);
 
     const checkPre = await TokenXInstance.balanceOf.call(accounts[0]);
-    assert.equal(checkPre, 15);
+    assert.equal(checkPre, 11);
     // approve the smart contract to withdraw amount of tokens that is going to be exchanged
     // and test the allowanceValue before and after the approval
-    const approve = await TokenXInstance.approve(TokenSwapInstance.address, 15);
+    const approve = await TokenXInstance.approve(TokenSwapInstance.address, 10);
 
     let allowanceValue = await TokenXInstance.allowance(
       accounts[0],
       TokenSwapInstance.address
     );
-    assert.equal(allowanceValue, 15);
+    assert.equal(allowanceValue, 10);
 
-    const exchangeAmount = await TokenSwapInstance.swapTKX(15, {
+    const exchangeAmount = await TokenSwapInstance.swapTKX(10, {
       from: accounts[0],
     });
 
@@ -100,18 +100,19 @@ contract("TokenSwap", (accounts) => {
       TokenSwapInstance.address
     );
     console.log("balance of token X" + balanceOfX);
-    assert.equal(balanceOfX, 1000);
+    assert.equal(balanceOfX, 999);
 
     const balanceOfA = await TokenAInstance.balanceOf(
       TokenSwapInstance.address
     );
 
     console.log("balance of token A" + balanceOfA);
-    assert.equal(balanceOfA, 1000);
+    assert.equal(balanceOfA, 1002);
 
     const balanceTKA = await TokenAInstance.balanceOf.call(accounts[0]);
     const balanceTKX = await TokenXInstance.balanceOf.call(accounts[0]);
-    assert.equal(balanceTKA, 10);
-    assert.equal(balanceTKX, 0);
-  });*/
+    console.log("balanceTKA::", balanceTKA);
+    assert.equal(balanceTKA, 8);
+    assert.equal(balanceTKX, 1);
+  });
 });

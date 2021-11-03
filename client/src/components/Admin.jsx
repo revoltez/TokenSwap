@@ -5,17 +5,16 @@ export default function Admin({Web3,Contracts,Accounts}) {
     const [ratio, setRatio] = useState(0);
     const [numOfTokenA, setNumOfTokenA] = useState(0);
     const [numOfTokenX, setNumOfTokenX] = useState(0);
-    const [web3, setWeb3] = useState(Web3);
-    const [contracts, setContracts] = useState(Contracts)
-    const [accounts, setAccounts] = useState(Accounts)
     const [fees, setFees]= useState(0);
     const [TokenSwapAddress, setTokenSwapAddress] = useState(0);
     const [tokenABalance, setTokenABalance] = useState(0);
     const [tokenXBalance, setTokenXBalance] = useState(0);
-const [abcTokenPrice, setabcTokenPrice] = useState(0);
-const [xyzTokenPrice, setXyzTokenPrice] = useState(0);
+    const [abcTokenPrice, setabcTokenPrice] = useState(0);
+    const [xyzTokenPrice, setXyzTokenPrice] = useState(0);
 
-    
+    let web3 =  Web3;        
+    let accounts= Accounts;
+    let contracts = Contracts;
     let networkId;
     let deployedNetworkTokenSwap;
 
