@@ -1,5 +1,6 @@
 # TokenSwap
 Token swap smart contract that swaps two ERC20 tokens and takes a fee
+![TokenSwap](https://user-images.githubusercontent.com/24751547/140658739-c6c999c0-e3c8-4250-a34c-d755ea9801f9.png)
 # Test
 run the following commands :
 ```
