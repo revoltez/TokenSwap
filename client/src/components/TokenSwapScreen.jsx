@@ -128,16 +128,16 @@ const calculateSwap=()=>
 
     return (
         <div class="container mt-5">
-        <nav class ="navbar navbar-expand-lg navbar-light bg-success rounded-3 ">
+        <nav class ="navbar navbar-expand-lg navbar-light bg-dark rounded-3 ">
             <div class="container-fluid">
-            <h1 class="text-light">Token Swap</h1>
+            <h1 class="text-light">TokenSwap</h1>
             <label class="badge bg-primary fs-4 rounded">TokenABC Balance: {tokenABalance} Tokens</label>
             <label class="badge bg-primary fs-4 rounded">TokenXYZ Balance: {tokenXBalance} Tokens</label>
             </div>
         </nav>
-        <div class="d-flex mt-3">
+        <div class="d-flex mt-3 input-group">
             <input class="form-control border" placeholder="Amount" type="number" onChange={(evt)=>{setNumOfTokenA(evt.target.value)}} ></input>
-            <button class="btn btn-danger border text-center form-control" type="submit" onClick={()=>{buyTokensABC(numOfTokenX)}}>buy Token ABC</button>
+            <button class="btn-danger text-center form-control" type="submit" onClick={()=>{buyTokensABC(numOfTokenX)}}>buy Token ABC</button>
             <input class="form-control" type="number" placeholder="Amount" onChange={(evt)=>{setNumOfTokenX(evt.target.value)}} ></input>
             <label class="btn-danger text-center form-control" onClick={()=>{buyTokensXYZ(numOfTokenX)}} >buy Token XYZ</label>
         </div>
