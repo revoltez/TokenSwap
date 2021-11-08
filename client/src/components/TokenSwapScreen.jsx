@@ -23,7 +23,9 @@ let accounts= Accounts;
     useEffect(async ()=>
     {        
         const networkId = await web3.eth.net.getId();
+        console.log("network ID:::"+networkId);
         const deployedNetworkTokenSwap = TokenSwap.networks[networkId];
+        console.log("depoyedNetworkTokensSwap:::",deployedNetworkTokenSwap);
         setTokenSwapAddress(deployedNetworkTokenSwap.address);
         await updateBalance();
         const result = await contracts[0].methods.getFees().call();
