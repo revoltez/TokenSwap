@@ -83,7 +83,15 @@ function App() {
   }, [web3, contracts, accounts]);
 
   if (!web3) {
-    return <div>Loading Web3, accounts, and contract...</div>;
+    return( 
+      <React.Fragment>
+        <div class="d-flex justify-content-center position-absolute top-50 start-50 translate-middle">
+          <div class="spinner-grow" style={{width: "6rem", height: "6rem"}} role="status">
+          </div>
+        </div>
+      </React.Fragment>
+    )
+        
   }
 
   if (web3 && accounts && contracts) {
@@ -160,7 +168,7 @@ function App() {
                     enable: true,
                     value_area: 800,
                   },
-                  value: 80,
+                  value: 50,
                 },
                 opacity: {
                   value: 0.5,
