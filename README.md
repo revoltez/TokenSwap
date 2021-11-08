@@ -12,6 +12,8 @@ in case you want to publish in the testnet dont Forget to add .secret file and p
 # Run 
 you need to modify the Admin address in App.js to get the Admin panel and charge the TokenSwap Smart contract and then run the following comand
 ```
+npm install 
+cd Client
 yarn install
 yarn start
 ```
