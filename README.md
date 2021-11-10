@@ -20,4 +20,4 @@ yarn start
 ```
 - add the Admin account in your wallet, the TokenSwap will detect changes and redirect you to the Admin component
 you need to charge the smart Contract with Tokens XYZ and ABC and set the Ratio and the Fee
-- make sure to configure Metamask to whichever network you migrated to when you ran the ```truffle migarte ``` command,this repository is already configured to connect to the testnet.
+- make sure to configure Metamask to whichever network you migrated to when you ran the ```truffle migarte ``` command,this repository is already configured to connect to the BSC testnet.
