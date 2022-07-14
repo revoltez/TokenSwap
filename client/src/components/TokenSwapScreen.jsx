@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import TokenSwap from "../contracts/TokenSwap.json";
 
-export default function TokenSwapScreen({Web3,Contracts,Accounts}) {
+export default function TokenSwapScreen({Web3,Contracts,Accounts,TokenSwapAddress}) {
 
 const [tokenSelected, setTokenSelected] = useState("ABC");
 const [switchAmount, setSwitchAmount] = useState(0);
@@ -9,7 +9,6 @@ const [numOfTokenA, setNumOfTokenA] = useState(0);
 const [numOfTokenX, setNumOfTokenX] = useState(0);
 const [tokenABalance, setTokenABalance] = useState(0);
 const [tokenXBalance, setTokenXBalance] = useState(0);
-const [TokenSwapAddress, setTokenSwapAddress] = useState(0);
 const [fees, setFees] = useState(0);
 const [ratio, setRatio] = useState(0);
 const [finalAmount, setFinalAmount] = useState(0);
@@ -22,12 +21,7 @@ let accounts= Accounts;
     //Run only once
     useEffect(async ()=>
     {        
-        const networkId = await web3.eth.net.getId();
-        console.log("network ID:::"+networkId);
-        const deployedNetworkTokenSwap = TokenSwap.networks[networkId];
-        console.log("depoyedNetworkTokensSwap:::",deployedNetworkTokenSwap);
-        setTokenSwapAddress(deployedNetworkTokenSwap.address);
-        await updateBalance();
+        updateBalance();
         const result = await contracts[0].methods.getFees().call();
         setFees(result);
         const result2 = await contracts[0].methods.getRatio().call();
@@ -47,12 +41,13 @@ let accounts= Accounts;
         const result2 = await contracts[2].methods.balanceOf(accounts[0]).call();
         setTokenXBalance(parseInt(result2));
         
-        const receipt = await contracts[1].events.Transfer({fromBlock:0, filter:
+        await contracts[1].events.Transfer({fromBlock:0, filter:
             {_from:accounts[0],_to:accounts[0]}},(error,event) =>
         {
+            
             updateBalance();
         });
-        const receipt2 = await contracts[2].events.Transfer({fromBlock:0, filter:
+        await contracts[2].events.Transfer({fromBlock:0, filter:
         {_from:accounts[0],_to:accounts[0]}},(error,event) =>
         {
             updateBalance();
@@ -71,13 +66,13 @@ let accounts= Accounts;
             console.log("tokenselcted::",tokenSelected);
             if(tokenSelected ==="ABC")
             {
-                const receipt = await contracts[1].methods.approve(TokenSwapAddress,switchAmount).send({from:accounts[0]});
-                const result = await contracts[0].methods.swapTKA(switchAmount).send({from:accounts[0]}); 
+                await contracts[1].methods.approve(TokenSwapAddress,switchAmount).send({from:accounts[0]});
+                await contracts[0].methods.swapTKA(switchAmount).send({from:accounts[0]}); 
             }
             else
             {
-                const receipt = await contracts[2].methods.approve(TokenSwapAddress,switchAmount).send({from:accounts[0]});
-                const result = await contracts[0].methods.swapTKX(switchAmount).send({from:accounts[0]});   
+                await contracts[2].methods.approve(TokenSwapAddress,switchAmount).send({from:accounts[0]});
+                await contracts[0].methods.swapTKX(switchAmount).send({from:accounts[0]});   
             }
         }else{alert("Cant switch Tokens with Expected return less then zero")}
     }
@@ -86,7 +81,7 @@ let accounts= Accounts;
     {
         try
         {
-            const receipt = await contracts[1].methods.buyTokens(numOfTokenA).send({from:accounts[0],value:numOfTokenA*abcTokenPrice});
+            await contracts[1].methods.buyTokens(numOfTokenA).send({from:accounts[0],value:numOfTokenA*abcTokenPrice});
         }
         catch(err)
         {
@@ -98,7 +93,7 @@ let accounts= Accounts;
     {
         try
         {
-            const receipt = await contracts[2].methods.buyTokens(numOfTokenX).send({from:accounts[0],value:numOfTokenX*xyzTokenPrice});
+            await contracts[2].methods.buyTokens(numOfTokenX).send({from:accounts[0],value:numOfTokenX*xyzTokenPrice});
         }
         catch(err)
         {
@@ -155,7 +150,7 @@ const calculateSwap=()=>
 
             <div class="input-group mt-5">
             <input class="form-control" placeholder="Amount" type="number" onChange={(evt)=>{setSwitchAmount(evt.target.value)}} ></input>
-            <button class="btn-warning form-control" onClick={()=>{swapTokens()}}>Switch</button>
+            <button class="btn-warning form-control" onClick={()=>{swapTokens()}}>Swap</button>
             </div>    
             <label class="alert alert-info mt-3">1 ABC = {ratio} XYZ, Fees: {fees}%  Expected to get:{finalAmount}</label>
             </div>
