@@ -8,10 +8,10 @@ contract TokenXYZ is ERC20 {
     uint256 public tokensSold;
 
     constructor(uint256 initialSupply, uint256 _tokenPrice)
-        ERC20("TokenXYZ", "XYZ")
+        ERC20("TokenABC", "ABC")
     {
         tokenPrice = _tokenPrice;
-        _mint(address(this), initialSupply);
+        _mint(address(this), initialSupply * 10**decimals());
     }
 
     function mul(uint256 x, uint256 y) internal pure returns (uint256 z) {

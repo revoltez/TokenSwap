@@ -36,12 +36,12 @@ export default function Admin({Web3,Contracts,Accounts}) {
         setTokenSwapAddress(deployedNetworkTokenSwap.address);
         updateBalance();
         
-        const receipt = await contracts[1].events.Transfer({fromBlock:0, filter:
+        await contracts[1].events.Transfer({fromBlock:0, filter:
             {_from:accounts[0],_to:deployedNetworkTokenSwap.address}},(error,event) =>
         {
             updateBalance();
         });
-        const receipt2 = await contracts[2].events.Transfer({fromBlock:0, filter:
+        await contracts[2].events.Transfer({fromBlock:0, filter:
             {_from:accounts[0],_to:deployedNetworkTokenSwap.address}},(error,event) =>
         {
             updateBalance();
@@ -62,22 +62,22 @@ export default function Admin({Web3,Contracts,Accounts}) {
 
     const  buyTokensABC = async ()=>
     {
-        const receipt = await contracts[0].methods.buyTokensABC(numOfTokenA).send({from:accounts[0],value:abcTokenPrice*numOfTokenA});
+        await contracts[0].methods.buyTokensABC(numOfTokenA).send({from:accounts[0],value:abcTokenPrice*numOfTokenA});
     } 
     const buyTokensXYZ = async ()=>
     {
-        const receipt = await contracts[0].methods.buyTokensXYZ(numOfTokenX).send({from:accounts[0],value:xyzTokenPrice*numOfTokenX});
+        await contracts[0].methods.buyTokensXYZ(numOfTokenX).send({from:accounts[0],value:xyzTokenPrice*numOfTokenX});
     }
     const changeFees= async ()=>
     {
-        const receipt = await contracts[0].methods.setFees(fees).send({from:accounts[0]});
+        await contracts[0].methods.setFees(fees).send({from:accounts[0]});
         const result = await contracts[0].methods.getFees().call();
         setFees(result);
     }
 
     const changeRatio =async ()=>
     {
-        const receipt = await contracts[0].methods.setRatio(ratio).send({from:accounts[0]});
+        await contracts[0].methods.setRatio(ratio).send({from:accounts[0]});
         const result = await  contracts[0].methods.getRatio().call();
         setRatio(result);  
     }
