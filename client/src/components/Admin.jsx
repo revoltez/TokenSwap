@@ -1,60 +1,49 @@
 import React,{useEffect, useState} from 'react'
 import TokenSwap from "../contracts/TokenSwap.json";
 
-export default function Admin({Web3,Contracts,Accounts}) {
+export default function Admin({Web3,Contracts,Accounts,TokenSwapAddress}) {
     const [ratio, setRatio] = useState(0);
     const [numOfTokenA, setNumOfTokenA] = useState(0);
     const [numOfTokenX, setNumOfTokenX] = useState(0);
     const [fees, setFees]= useState(0);
-    const [TokenSwapAddress, setTokenSwapAddress] = useState(0);
     const [tokenABalance, setTokenABalance] = useState(0);
     const [tokenXBalance, setTokenXBalance] = useState(0);
     const [abcTokenPrice, setabcTokenPrice] = useState(0);
     const [xyzTokenPrice, setXyzTokenPrice] = useState(0);
 
-    let web3 =  Web3;        
-    let accounts= Accounts;
-    let contracts = Contracts;
-    let networkId;
-    let deployedNetworkTokenSwap;
-
     const updateBalance=async()=>
     {
-        console.log("deployeNetworkAddress: ",deployedNetworkTokenSwap.address);
-        const result = await contracts[1].methods.balanceOf(deployedNetworkTokenSwap.address).call();
+        const result = await Contracts[1].methods.balanceOf(TokenSwapAddress).call();
         setTokenABalance(parseInt(result));
 
-        const result2 = await contracts[2].methods.balanceOf(deployedNetworkTokenSwap.address).call();
+        const result2 = await Contracts[2].methods.balanceOf(TokenSwapAddress).call();
         setTokenXBalance(parseInt(result2));
     }
 
     //Run only once
     useEffect(async ()=>
     {
-        networkId = await web3.eth.net.getId();
-        deployedNetworkTokenSwap = TokenSwap.networks[networkId];
-        setTokenSwapAddress(deployedNetworkTokenSwap.address);
         updateBalance();
         
-        await contracts[1].events.Transfer({fromBlock:0, filter:
-            {_from:accounts[0],_to:deployedNetworkTokenSwap.address}},(error,event) =>
+        await Contracts[1].events.Transfer({fromBlock:0, filter:
+            {_from:Accounts[0],_to:TokenSwapAddress}},(error,event) =>
         {
             updateBalance();
         });
-        await contracts[2].events.Transfer({fromBlock:0, filter:
-            {_from:accounts[0],_to:deployedNetworkTokenSwap.address}},(error,event) =>
+        await Contracts[2].events.Transfer({fromBlock:0, filter:
+            {_from:Accounts[0],_to:TokenSwapAddress}},(error,event) =>
         {
             updateBalance();
         });
 
-        const abcPrice = await contracts[1].methods.tokenPrice().call();
+        const abcPrice = await Contracts[1].methods.tokenPrice().call();
         setabcTokenPrice(abcPrice)
-        const xyzPrice= await contracts[2].methods.tokenPrice().call();
+        const xyzPrice= await Contracts[2].methods.tokenPrice().call();
         setXyzTokenPrice(xyzPrice);
 
-        const result = await contracts[0].methods.getRatio().call();
+        const result = await Contracts[0].methods.getRatio().call();
         setRatio(result);
-        const result2 = await contracts[0].methods.getFees().call();
+        const result2 = await Contracts[0].methods.getFees().call();
         setFees(result2);
 
     },[]);
@@ -62,23 +51,23 @@ export default function Admin({Web3,Contracts,Accounts}) {
 
     const  buyTokensABC = async ()=>
     {
-        await contracts[0].methods.buyTokensABC(numOfTokenA).send({from:accounts[0],value:abcTokenPrice*numOfTokenA});
+        await Contracts[0].methods.buyTokensABC(numOfTokenA).send({from:Accounts[0],value:abcTokenPrice*numOfTokenA});
     } 
     const buyTokensXYZ = async ()=>
     {
-        await contracts[0].methods.buyTokensXYZ(numOfTokenX).send({from:accounts[0],value:xyzTokenPrice*numOfTokenX});
+        await Contracts[0].methods.buyTokensXYZ(numOfTokenX).send({from:Accounts[0],value:xyzTokenPrice*numOfTokenX});
     }
     const changeFees= async ()=>
     {
-        await contracts[0].methods.setFees(fees).send({from:accounts[0]});
-        const result = await contracts[0].methods.getFees().call();
+        await Contracts[0].methods.setFees(fees).send({from:Accounts[0]});
+        const result = await Contracts[0].methods.getFees().call();
         setFees(result);
     }
 
     const changeRatio =async ()=>
     {
-        await contracts[0].methods.setRatio(ratio).send({from:accounts[0]});
-        const result = await  contracts[0].methods.getRatio().call();
+        await Contracts[0].methods.setRatio(ratio).send({from:Accounts[0]});
+        const result = await  Contracts[0].methods.getRatio().call();
         setRatio(result);  
     }
 

@@ -95,9 +95,14 @@ function App() {
   }
 
   if (web3 && accounts && contracts) {
-    if (accounts[0] === "0x836b3F060B5dF382bF73d21f66571b62d9fF0A38") {
+    if (accounts[0] === "0x836fe94b23Df1C102301f34549277Ddb347d76A9") {
       return (
-        <Admin Web3={web3} Contracts={contracts} Accounts={accounts}></Admin>
+        <Admin
+          Web3={web3}
+          Contracts={contracts}
+          Accounts={accounts}
+          TokenSwapAddress={TokenSwapAddress}
+        ></Admin>
       );
     } else {
       console.log("contracts from app");

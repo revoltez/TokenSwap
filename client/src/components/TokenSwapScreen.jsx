@@ -26,6 +26,17 @@ let accounts= Accounts;
         setFees(result);
         const result2 = await contracts[0].methods.getRatio().call();
         setRatio(result2);
+        
+        await contracts[1].events.Transfer({fromBlock:0, filter:
+            {_from:accounts[0],_to:accounts[0]}},async (error,event) =>
+        {
+            updateBalance();
+        });
+        await contracts[2].events.Transfer({fromBlock:0, filter:
+        {_from:accounts[0],_to:accounts[0]}},async (error,event) =>
+        {
+            updateBalance();
+        });
 
     },[]);
 
@@ -35,35 +46,22 @@ let accounts= Accounts;
 
     const updateBalance=async()=>
     {
-        const result = await contracts[1].methods.balanceOf(accounts[0]).call();
-        setTokenABalance(parseInt(result));
+            const result = await contracts[1].methods.balanceOf(accounts[0]).call();
+            setTokenABalance(parseInt(result));
 
-        const result2 = await contracts[2].methods.balanceOf(accounts[0]).call();
-        setTokenXBalance(parseInt(result2));
-        
-        await contracts[1].events.Transfer({fromBlock:0, filter:
-            {_from:accounts[0],_to:accounts[0]}},(error,event) =>
-        {
-            
-            updateBalance();
-        });
-        await contracts[2].events.Transfer({fromBlock:0, filter:
-        {_from:accounts[0],_to:accounts[0]}},(error,event) =>
-        {
-            updateBalance();
-        });
+            const result2 = await contracts[2].methods.balanceOf(accounts[0]).call();
+            setTokenXBalance(parseInt(result2));
 
-        const abcPrice = await contracts[1].methods.tokenPrice().call();
-        setabcTokenPrice(abcPrice)
-        const xyzPrice= await contracts[2].methods.tokenPrice().call();
-        setXyzTokenPrice(xyzPrice);
+            const abcPrice = await contracts[1].methods.tokenPrice().call();
+            setabcTokenPrice(abcPrice)
+            const xyzPrice= await contracts[2].methods.tokenPrice().call();
+            setXyzTokenPrice(xyzPrice);
     }
 
     const swapTokens = async()=>
     {
         if(finalAmount>0)
         {
-            console.log("tokenselcted::",tokenSelected);
             if(tokenSelected ==="ABC")
             {
                 await contracts[1].methods.approve(TokenSwapAddress,switchAmount).send({from:accounts[0]});
