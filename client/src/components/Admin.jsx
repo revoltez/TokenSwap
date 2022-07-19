@@ -74,8 +74,9 @@ export default function Admin({Web3,Contracts,Accounts,TokenSwapAddress}) {
 
     return (
         <div class="container">
-        <h1 class="text-center">Admin panel</h1>
-        <label class="mt-1 alert alert-info">fees: {fees}%</label> 
+        <div class="mt-2 d-flex justify-content-center align-items-center navbar rounded bg-warning ">
+<p class="h2 text-white">Admin panel</p></div>
+        <label class="mt-2 alert alert-info">fees: {fees}%</label> 
         <div class="input-group">
            <input type="number"  class="text-center form-control" placeholder="Fees" min="1" onChange={(evt)=>{setFees(evt.target.value)}}></input>
            <button class="btn-primary form-control" onClick={()=>{changeFees()}}>Set Fees</button> 
@@ -88,7 +89,7 @@ export default function Admin({Web3,Contracts,Accounts,TokenSwapAddress}) {
            <input type="number"  class="text-center form-control" placeholder="Ratio" onChange={(evt)=>{setRatio(evt.target.value)}}></input>
            <button class="btn-primary form-control" onClick={()=>{changeRatio()}}>Set Ratio</button> 
         </div>
-<br></br>
+        <br></br>
         <label class="alert alert-info">Tokens ABC bought:{tokenABalance}</label>
         <div class="input-group">
            <input type="number"  class="text-center form-control" max="5000" placeholder="Amount" onChange={(evt)=>{setNumOfTokenA(evt.target.value)}}></input>

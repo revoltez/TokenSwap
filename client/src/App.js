@@ -95,20 +95,22 @@ function App() {
   }
 
   if (web3 && accounts && contracts) {
-    if (accounts[0] === "0x836fe94b23Df1C102301f34549277Ddb347d76A9") {
-      return (
-        <Admin
-          Web3={web3}
-          Contracts={contracts}
-          Accounts={accounts}
-          TokenSwapAddress={TokenSwapAddress}
-        ></Admin>
-      );
-    } else {
-      console.log("contracts from app");
-      console.log(contracts);
+    if (accounts[0] === "0x7d8ccB75Bc6F90bF84e93bC8791A3618cCD47ed6") {
       return (
         <React.Fragment>
+          <ParticlesConf />
+          <Admin
+            Web3={web3}
+            Contracts={contracts}
+            Accounts={accounts}
+            TokenSwapAddress={TokenSwapAddress}
+          ></Admin>
+        </React.Fragment>
+      );
+    } else {
+      return (
+        <React.Fragment>
+          <ParticlesConf />
           <TokenSwapScreen
             Web3={web3}
             Contracts={contracts}
