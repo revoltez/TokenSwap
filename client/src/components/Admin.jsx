@@ -25,12 +25,12 @@ export default function Admin({Web3,Contracts,Accounts,TokenSwapAddress}) {
     {
         updateBalance();
         
-        await Contracts[1].events.Transfer({fromBlock:0, filter:
+        const receipt= await Contracts[1].events.Transfer({fromBlock:0, filter:
             {_from:Accounts[0],_to:TokenSwapAddress}},(error,event) =>
         {
             updateBalance();
         });
-        await Contracts[2].events.Transfer({fromBlock:0, filter:
+        const receipt2=await Contracts[2].events.Transfer({fromBlock:0, filter:
             {_from:Accounts[0],_to:TokenSwapAddress}},(error,event) =>
         {
             updateBalance();
@@ -49,24 +49,24 @@ export default function Admin({Web3,Contracts,Accounts,TokenSwapAddress}) {
     },[]);
 
 
-    const  buyTokensABC = async ()=>
+    const  buyTokensABC = async (value)=>
     {
-        await Contracts[0].methods.buyTokensABC(numOfTokenA).send({from:Accounts[0],value:abcTokenPrice*numOfTokenA});
+        await Contracts[0].methods.buyTokensABC(value).send({from:Accounts[0],value:abcTokenPrice*value});
     } 
-    const buyTokensXYZ = async ()=>
+    const buyTokensXYZ = async (value)=>
     {
-        await Contracts[0].methods.buyTokensXYZ(numOfTokenX).send({from:Accounts[0],value:xyzTokenPrice*numOfTokenX});
+        await Contracts[0].methods.buyTokensXYZ(value).send({from:Accounts[0],value:xyzTokenPrice*value});
     }
-    const changeFees= async ()=>
+    const changeFees= async (value)=>
     {
-        await Contracts[0].methods.setFees(fees).send({from:Accounts[0]});
+        await Contracts[0].methods.setFees(value).send({from:Accounts[0]});
         const result = await Contracts[0].methods.getFees().call();
         setFees(result);
     }
 
-    const changeRatio =async ()=>
+    const changeRatio =async (value)=>
     {
-        await Contracts[0].methods.setRatio(ratio).send({from:Accounts[0]});
+        await Contracts[0].methods.setRatio(value).send({from:Accounts[0]});
         const result = await  Contracts[0].methods.getRatio().call();
         setRatio(result);  
     }
@@ -75,32 +75,55 @@ export default function Admin({Web3,Contracts,Accounts,TokenSwapAddress}) {
     return (
         <div class="container">
         <div class="mt-2 d-flex justify-content-center align-items-center navbar rounded bg-warning ">
-<p class="h2 text-white">Admin panel</p></div>
-        <label class="mt-2 alert alert-info">fees: {fees}%</label> 
-        <div class="input-group">
-           <input type="number"  class="text-center form-control" placeholder="Fees" min="1" onChange={(evt)=>{setFees(evt.target.value)}}></input>
-           <button class="btn-primary form-control" onClick={()=>{changeFees()}}>Set Fees</button> 
-        </div>
-
-           <br></br>
-
-        <label class ="alert alert-info">Ratio: {ratio}</label>
-        <div class="input-group">
-           <input type="number"  class="text-center form-control" placeholder="Ratio" onChange={(evt)=>{setRatio(evt.target.value)}}></input>
-           <button class="btn-primary form-control" onClick={()=>{changeRatio()}}>Set Ratio</button> 
-        </div>
-        <br></br>
-        <label class="alert alert-info">Tokens ABC bought:{tokenABalance}</label>
-        <div class="input-group">
-           <input type="number"  class="text-center form-control" max="5000" placeholder="Amount" onChange={(evt)=>{setNumOfTokenA(evt.target.value)}}></input>
-           <button class="btn-danger form-control" onClick={()=>{buyTokensABC()}}>Buy TokenABC</button> 
-        </div>
-           <br></br>
-        <label class="alert alert-info">Tokens XYZ bought:{tokenXBalance}</label>   
-        <div class="input-group">
-           <input type="number"  class="text-center form-control" placeholder="Amount" onChange={(evt)=>{setNumOfTokenX(evt.target.value)}}></input>
-           <button class="btn-danger form-control" onClick={()=>{buyTokensXYZ()}}>Buy TokenXYZ</button> 
-        </div>
+        <p class="h2 text-white">Admin panel</p></div>
+        <form onSubmit={(evt)=>
+                {
+                    evt.preventDefault();
+                    changeFees(evt.target.fees.value);
+                    evt.target.fees.value="";
+                }}>
+            <label class="mt-3 alert alert-info">fees: {fees}%</label> 
+            <div class="input-group">
+                <input name="fees" type="number"  class="text-center form-control" name="fees" placeholder="Fees" min="1" ></input>
+                <button class="btn-primary form-control" type="submit" /*onClick={(evt)=>{/*changeFees()}*/>Set Fees</button> 
+            </div>
+        </form>
+        <form onSubmit={(evt)=>
+                {
+                    evt.preventDefault();
+                    changeRatio(evt.target.ratio.value);
+                    evt.target.ratio.value="";
+                }}>
+            <label class ="mt-3 alert alert-info">Ratio: {ratio}</label>
+            <div class="input-group">
+                <input type="number"  name="ratio" class="text-center form-control" placeholder="Ratio"></input>
+                <button class="btn-primary form-control" type="submit" onClick={()=>{changeRatio()}}>Set Ratio</button> 
+            </div>
+        </form>
+        <form onSubmit={(evt)=>
+                {
+                    evt.preventDefault();
+                    buyTokensABC(evt.target.tokenABCAmount.value);
+                    evt.target.tokenABCAmount.value="";
+                }}>
+            <label class="mt-3 alert alert-info">Tokens ABC bought:{tokenABalance}</label>
+            <div class="input-group">
+                <input type="number"  name="tokenABCAmount" class="text-center form-control" max="5000" placeholder="Amount"></input>
+                <button class="btn-danger form-control" type="submit">Buy TokenABC</button> 
+            </div>
+        </form>
+        <form onSubmit={(evt)=>
+                {
+                    evt.preventDefault();
+                    buyTokensXYZ(evt.target.tokenXYZAmount.value);
+                    evt.target.tokenXYZAmount.value="";
+                }}>
+            <label class="mt-3 alert alert-info">Tokens XYZ bought:{tokenXBalance}</label>   
+            <div class="input-group">
+                <input type="number" name="tokenXYZAmount" class="text-center form-control" placeholder="Amount"></input>
+                <button class="btn-danger form-control" type="submit">Buy TokenXYZ</button> 
+            </div>
+        </form>
         </div>
     )
 }
