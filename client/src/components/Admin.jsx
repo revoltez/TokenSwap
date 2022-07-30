@@ -97,7 +97,7 @@ export default function Admin({Web3,Contracts,Accounts,TokenSwapAddress}) {
             <label class ="mt-3 alert alert-info">Ratio: {ratio}</label>
             <div class="input-group">
                 <input type="number"  name="ratio" class="text-center form-control" placeholder="Ratio"></input>
-                <button class="btn-primary form-control" type="submit" onClick={()=>{changeRatio()}}>Set Ratio</button> 
+                <button class="btn-primary form-control" type="submit">Set Ratio</button> 
             </div>
         </form>
         <form onSubmit={(evt)=>

@@ -95,7 +95,7 @@ function App() {
   }
 
   if (web3 && accounts && contracts) {
-    if (accounts[0] === "0x7d8ccB75Bc6F90bF84e93bC8791A3618cCD47ed6") {
+    if (accounts[0] === "0x3dda3A06312D4115F7ccc55a6238f1c0B4eB0e98") {
       return (
         <React.Fragment>
           <ParticlesConf />

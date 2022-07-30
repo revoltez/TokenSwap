@@ -75,11 +75,11 @@ let accounts= Accounts;
         }else{alert("Cant switch Tokens with Expected return less then zero")}
     }
 
-    const  buyTokensABC = async ()=>
+    const  buyTokensABC = async (amount)=>
     {
         try
         {
-            await contracts[1].methods.buyTokens(numOfTokenA).send({from:accounts[0],value:numOfTokenA*abcTokenPrice});
+            await contracts[1].methods.buyTokens(amount).send({from:accounts[0],value:amount*abcTokenPrice});
         }
         catch(err)
         {
@@ -87,11 +87,11 @@ let accounts= Accounts;
         }
     }
 
-    const buyTokensXYZ = async ()=>
+    const buyTokensXYZ = async (amount)=>
     {
         try
         {
-            await contracts[2].methods.buyTokens(numOfTokenX).send({from:accounts[0],value:numOfTokenX*xyzTokenPrice});
+            await contracts[2].methods.buyTokens(amount).send({from:accounts[0],value:amount*xyzTokenPrice});
         }
         catch(err)
         {
@@ -130,14 +130,29 @@ const calculateSwap=()=>
             <label class="badge bg-primary fs-4 rounded">TokenXYZ Balance: {tokenXBalance} Tokens</label>
             </div>
         </nav>
-        <div class="d-flex mt-3 input-group">
-            <input class="form-control border" placeholder="Amount" type="number" onChange={(evt)=>{setNumOfTokenA(evt.target.value)}} ></input>
-            <button class="btn-danger text-center form-control" type="submit" onClick={()=>{buyTokensABC(numOfTokenX)}}>buy Token ABC</button>
-            <input class="form-control" type="number" placeholder="Amount" onChange={(evt)=>{setNumOfTokenX(evt.target.value)}} ></input>
-            <label class="btn-danger text-center form-control" onClick={()=>{buyTokensXYZ(numOfTokenX)}} >buy Token XYZ</label>
-        </div>
-
-
+        <form onSubmit={(evt)=>
+            {
+                evt.preventDefault();
+                buyTokensABC( evt.target.tkABC.value);
+                evt.target.tkABC.value="";
+            }}>
+            <div class="d-flex mt-3 input-group">
+                <input class="form-control border" placeholder="Amount" name="tkABC" type="number" onChange={(evt)=>{setNumOfTokenA(evt.target.value)}} ></input>
+                <button class="btn-danger text-center form-control" type="submit">buy Token ABC</button>
+                </div>
+        </form>
+        
+        <form onSubmit={(evt)=>
+            {
+                evt.preventDefault();
+                buyTokensXYZ(evt.target.tkXYZ.value);
+                evt.target.tkXYZ.value="";
+            }}>
+            <div class="d-flex mt-3 input-group">
+                <input class="form-control" type="number" placeholder="Amount" name="tkXYZ" onChange={(evt)=>{setNumOfTokenX(evt.target.value)}} ></input>
+                <button class="btn-danger text-center form-control" type="submit">buy Token XYZ</button>
+            </div>
+        </form>
             <div class="input-group mt-3">
                 <select onChange={(evt)=>{
                     setTokenSelected(evt.target.value)
@@ -145,13 +160,12 @@ const calculateSwap=()=>
                     <option value="ABC">switch TokenABC with Token XYZ</option>
                     <option value="XYZ">switch Token XYZ with Token ABC</option>
                 </select>
-
+            </div>
             <div class="input-group mt-5">
             <input class="form-control" placeholder="Amount" type="number" onChange={(evt)=>{setSwitchAmount(evt.target.value)}} ></input>
             <button class="btn-warning form-control" onClick={()=>{swapTokens()}}>Swap</button>
             </div>    
             <label class="alert alert-info mt-3">1 ABC = {ratio} XYZ, Fees: {fees}%  Expected to get:{finalAmount}</label>
-            </div>
         </div>
     )
 }

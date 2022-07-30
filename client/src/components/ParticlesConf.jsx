@@ -12,7 +12,7 @@ export
                   value: "#0e7569",
                 },
               },
-              fpsLimit: 60,
+              fpsLimit: 50,
               interactivity: {
                 events: {
                   onClick: {
@@ -60,7 +60,7 @@ export
                   enable: true,
                   outMode: "bounce",
                   random: false,
-                  speed: 2,
+                  speed: 1,
                   straight: false,
                 },
                 number: {
