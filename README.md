@@ -2,6 +2,9 @@
 
 Token swap smart contract that swaps two ERC20 tokens and takes a fee
 
+[![](https://img.shields.io/badge/Donate-yellow?style=for-the-badge)](https://www.patreon.com/free_college)
+
+# 
 ![TokenSwap](https://user-images.githubusercontent.com/24751547/140658739-c6c999c0-e3c8-4250-a34c-d755ea9801f9.png)
 
 # Test
